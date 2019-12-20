@@ -330,6 +330,7 @@ ASALocalRun/
 .mfractor/
 
 App.config
+
 HumaneSociety.dbml
 HumaneSociety.dbml.layout
 HumaneSociety.designer.cs
