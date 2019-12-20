@@ -271,7 +271,42 @@ namespace HumaneSociety
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
         {
+
             new NotImplementedException();
+
+            
+            var animal = db.Animals.Where(a => a.AnimalId == animalId).FirstOrDefault();
+            foreach (KeyValuePair<int, string> info in updates)
+            {
+                switch (info.Key)
+                {
+                    //"1. Category", "2. Name", "3. Age", "4. Demeanor", "5. Kid friendly", "6. Pet friendly", "7. Weight",
+                    case 1:
+                        animal.CategoryId = Convert.ToInt32(info.Value);
+                        break;
+                    case 2:
+                        animal.Name = info.Value;
+                        break;
+                    case 3:
+                        animal.Age = Convert.ToInt32(info.Value);
+                        break;
+                    case 4:
+                        animal.Demeanor = info.Value;
+                        break;
+                    case 5:
+                        animal.KidFriendly = Convert.ToBoolean(info.Value);
+                        break;
+                    case 6:
+                        animal.PetFriendly = Convert.ToBoolean(info.Value);
+                        break;
+                    case 7:
+                        animal.Weight = Convert.ToInt32(info.Value);
+                        break;
+                }
+
+            }
+            db.SubmitChanges();
+
         }
 
         internal static void RemoveAnimal(Animal animal)
@@ -284,7 +319,40 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException();
+            var animal = db.Animals.AsQueryable();
+            foreach (KeyValuePair<int,string> info in updates)
+            {
+                switch (info.Key)
+                {
+                    case 1:
+                        animal = db.Animals.Where(a => a.CategoryId == Convert.ToInt32(info.Value));
+                        break;
+                    case 2:
+                        animal = db.Animals.Where(a => a.Name == info.Value);
+                        break;
+                    case 3:
+                        animal = db.Animals.Where(a => a.Age == Convert.ToInt32(info.Value));
+                        break;
+                    case 4:
+                        animal = db.Animals.Where(a => a.Demeanor == info.Value);
+                        break;
+                    case 5:
+                        animal = db.Animals.Where(a => a.KidFriendly == Convert.ToBoolean(info.Value));
+                        break;
+                    case 6:
+                        animal = db.Animals.Where(a => a.PetFriendly == Convert.ToBoolean(info.Value));
+                        break;
+                    case 7:
+                        animal = db.Animals.Where(a => a.Weight == Convert.ToInt32(info.Value));
+                        break;
+                    case 8:
+                        animal = db.Animals.Where(a => a.AnimalId == Convert.ToInt32(info.Value));
+                        break;
+                }
+                                                  
+            }
+            return animal;
+
         }
 
         // TODO: Misc Animal Things
@@ -312,6 +380,7 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
+
             Adoption newAdoption = new Adoption();
             newAdoption.ClientId = client.ClientId;
             newAdoption.AnimalId = animal.AnimalId;
@@ -321,6 +390,9 @@ namespace HumaneSociety
 
             db.Adoptions.InsertOnSubmit(newAdoption);
             db.SubmitChanges();
+
+            
+
         }
 
 
@@ -365,8 +437,14 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-          
-           
+            DateTime now = DateTime.Now;
+            AnimalShot animalShot = new AnimalShot();
+            animalShot.AnimalId = animal.AnimalId;
+            animalShot.ShotId = db.Shots.Where( s => s.Name == shotName).Select(s=>s.ShotId).FirstOrDefault();
+            animalShot.DateReceived = now;
+            db.AnimalShots.InsertOnSubmit(animalShot);
+            db.SubmitChanges();
+
         }
     }
 }
