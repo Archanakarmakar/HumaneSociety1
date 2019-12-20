@@ -148,7 +148,7 @@ namespace HumaneSociety
 
         internal static Employee EmployeeLogin(string userName, string password)
         {
-            Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
+            Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).First();
 
             return employeeFromDb;
         }
@@ -172,22 +172,22 @@ namespace HumaneSociety
                     var employeeNumberCheck = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
                     if (employeeNumberCheck == null)
                     {
-                        var employeeEmailCheck = db.Employees.Where(e => e.Email == employee.Email).FirstOrDefault();
-                        if (employeeEmailCheck == null)
-                        {
-                            db.Employees.InsertOnSubmit(employee);
-                            db.SubmitChanges();
-                        }
-                        else
-                        {
-                            UserInterface.DisplayUserOptions("There is already an employee in the database with that employee email.");
+                        db.Employees.InsertOnSubmit(employee);
+                        db.SubmitChanges();
+                        //}
+                        //var employeeEmailCheck = db.Employees.Where(e => e.Email == employee.Email).FirstOrDefault();
+                        //if (employeeEmailCheck == null)
+                        //{
 
-                        }
+                        //else
+                        //{
+                        //    UserInterface.DisplayUserOptions("There is already an employee in the database with that employee email.");
+
+                        //}
                     }
                     else
                     {
                         UserInterface.DisplayUserOptions("There is already an employee in the database with that employee number.");
-
                     }
                     break;
                 case "delete":
@@ -406,8 +406,14 @@ namespace HumaneSociety
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
-        {
-            throw new NotImplementedException();
+        {  
+            DateTime now = DateTime.Now;
+            AnimalShot animalShot = new AnimalShot();
+            animalShot.AnimalId = animal.AnimalId;
+            animalShot.ShotId = db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).FirstOrDefault();
+            animalShot.DateReceived = now;
+            db.AnimalShots.InsertOnSubmit(animalShot);
+            db.SubmitChanges();        
         }
     }
 }
