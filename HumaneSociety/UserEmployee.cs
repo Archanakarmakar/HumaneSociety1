@@ -66,8 +66,7 @@ namespace HumaneSociety
             Console.Clear();
             var shots = Query.DisplayShots().ToList();
             UserInterface.DisplayShotsTable(shots);
-            Shot shot = new Shot();
-            
+            Shot shot = new Shot();   
             shot.Name = UserInterface.GetStringData("name", "of new shot");
             Query.AddShot(shot);
             Console.Clear();
@@ -186,6 +185,8 @@ namespace HumaneSociety
             }
             if (UserInterface.GetBitData("Would you like to Update shots?"))
             {
+                var nameshots = Query.DisplayShots().ToList();
+                UserInterface.DisplayShotsTable(nameshots);
                 string shotToAdd = UserInterface.GetStringData("the animal received", "the shot");
                 Query.UpdateShot(shotToAdd, animal);
             }

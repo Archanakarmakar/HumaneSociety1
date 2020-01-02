@@ -222,7 +222,7 @@ namespace HumaneSociety
         }
         internal static void DisplayShotsTable(List<Shot> shots)
         {
-            Console.WriteLine("These shots that are in the system already");
+            Console.WriteLine("These are the different shots in the system.");
             foreach (Shot shot in shots)
             {      
                 Console.WriteLine(shot.ShotId + ": " + shot.Name);

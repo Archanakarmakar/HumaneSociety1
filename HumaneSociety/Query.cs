@@ -423,23 +423,26 @@ namespace HumaneSociety
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
-
-        {  
-            DateTime now = DateTime.Now;
-            AnimalShot animalShot = new AnimalShot();
-            animalShot.AnimalId = animal.AnimalId;
-            if (animalShot.ShotId == db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).FirstOrDefault())
-            {
-                animalShot.DateReceived = now;
+        {
+            
+            var shotId = db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).FirstOrDefault();
+            var animalShots = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId && s.ShotId == shotId).FirstOrDefault();
+            DateTime now = DateTime.Now;            
+            
+            if (shotId == db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId && s.ShotId == shotId).Select(s=>s.ShotId).FirstOrDefault())
+            {              
+                animalShots.DateReceived = now;               
+                db.SubmitChanges();
             }
             else
             {
+                AnimalShot animalShot = new AnimalShot();
+                animalShot.AnimalId = animal.AnimalId;
                 animalShot.ShotId = db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).FirstOrDefault();
                 animalShot.DateReceived = now;
-            }
-            db.AnimalShots.InsertOnSubmit(animalShot);
-            db.SubmitChanges();        
-
+                db.AnimalShots.InsertOnSubmit(animalShot);
+                db.SubmitChanges();
+            }            
         }
 
         internal static void AddShot(Shot shot) 
