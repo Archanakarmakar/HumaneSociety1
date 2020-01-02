@@ -179,7 +179,13 @@ namespace HumaneSociety
                     }
                     break;
                 case "delete":
+                    
+
                     employee = db.Employees.Where(e => e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber).SingleOrDefault();
+                    Animal animal = new Animal();
+                    animal = db.Animals.Where(a => a.EmployeeId == employee.EmployeeId).First();
+                    animal.EmployeeId = null;
+                    db.SubmitChanges();
                     db.Employees.DeleteOnSubmit(employee);
                     db.SubmitChanges();
                     break;
@@ -299,6 +305,7 @@ namespace HumaneSociety
         {
             Animal animalDelete = db.Animals.Where(a => a == animal).FirstOrDefault();
             db.Animals.DeleteOnSubmit(animalDelete);
+            db.SubmitChanges();
         }
 
         // TODO: Animal Multi-Trait Search
@@ -356,7 +363,7 @@ namespace HumaneSociety
         internal static int GetDietPlanId(string dietPlanName)
         {
             int dietname;
-            dietname = db.DietPlans.Where(f => f.FoodType == dietPlanName).Select(f => f.DietPlanId).FirstOrDefault();
+            dietname = db.DietPlans.Where(f => f.Name == dietPlanName).Select(f => f.DietPlanId).FirstOrDefault();
             return dietname;
 
         }
@@ -405,6 +412,7 @@ namespace HumaneSociety
         {
             Adoption adoptedanimalDelete = db.Adoptions.Where(ad => ad.AnimalId == animalId && ad.ClientId == clientId).Select(ad => ad).FirstOrDefault();
             db.Adoptions.DeleteOnSubmit(adoptedanimalDelete);
+            db.SubmitChanges();
         }
         // TODO: Shot
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
@@ -420,11 +428,40 @@ namespace HumaneSociety
             DateTime now = DateTime.Now;
             AnimalShot animalShot = new AnimalShot();
             animalShot.AnimalId = animal.AnimalId;
-            animalShot.ShotId = db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).FirstOrDefault();
-            animalShot.DateReceived = now;
+            if (animalShot.ShotId == db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).FirstOrDefault())
+            {
+                animalShot.DateReceived = now;
+            }
+            else
+            {
+                animalShot.ShotId = db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).FirstOrDefault();
+                animalShot.DateReceived = now;
+            }
             db.AnimalShots.InsertOnSubmit(animalShot);
             db.SubmitChanges();        
 
+        }
+
+        internal static void AddShot(Shot shot) 
+        {
+            var shotname = db.Shots.Where(s => s.Name == shot.Name).Select(s => s.Name).FirstOrDefault();
+            if (shot.Name == shotname)
+            {
+                UserInterface.ShotIsAddedAlready(shot.Name);
+            }
+            else
+            {
+                db.Shots.InsertOnSubmit(shot);
+                db.SubmitChanges();
+            }
+                       
+        }
+
+        internal static IQueryable<Shot> DisplayShots() 
+        {
+            var shots = db.Shots.AsQueryable();
+            shots = db.Shots.Select(s => s);
+            return shots;
         }
     }
 }

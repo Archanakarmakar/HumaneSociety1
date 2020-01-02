@@ -26,7 +26,7 @@ namespace HumaneSociety
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption" };
+            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption", "5. Add New Shots" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
@@ -51,13 +51,27 @@ namespace HumaneSociety
                     CheckAdoptions();
                     RunUserMenus();
                     break;
+                case "5":
+                    AddNewShots();
+                    RunUserMenus();
+                    break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please try again");
                     RunUserMenus();
                     break;
             }
         }
-
+        private void AddNewShots() 
+        {
+            Console.Clear();
+            var shots = Query.DisplayShots().ToList();
+            UserInterface.DisplayShotsTable(shots);
+            Shot shot = new Shot();
+            
+            shot.Name = UserInterface.GetStringData("name", "of new shot");
+            Query.AddShot(shot);
+            Console.Clear();
+        }
         private void CheckAdoptions()
         {
             Console.Clear();
@@ -324,7 +338,7 @@ namespace HumaneSociety
         {
             Console.Clear();
             string username = UserInterface.GetStringData("username", "your");
-            if (Query.CheckEmployeeUserNameExist(username)==null)
+            if (Query.CheckEmployeeUserNameExist(username) == null)
             {
                 UserInterface.DisplayUserOptions("Username already in use please try another username.");
                 GetUserName();

@@ -1,0 +1,109 @@
+Select * from dbo.USStates;
+
+Select * from dbo.Shots;
+Select * from dbo.Rooms;
+Select * from dbo.Employees;
+Select * from dbo.DietPlans;
+Select * from dbo.Clients;
+Select * from dbo.Categories;
+select * from dbo.AnimalShots;
+select * from dbo.Animals;
+
+//Describe dbo.Animals;
+
+INSERT INTO Animals(Name,Weight,Age,Demeanor,KidFriendly,PetFriendly,Gender,AdoptionStatus) VALUES
+('Spark',30, 7,'1',1,1, 'Male', 'nn');
+
+INSERT INTO Categories VALUES
+('Dog'),
+('Cat'),
+('Fish'),
+('Rabbit'),
+('Ferret');
+
+INSERT INTO Clients(FirstName,LastName,UserName,Password,Email) VALUES
+('Jam', 'Joe', 'user2', 'password', 'user2@gmail.com'),
+('Jony', 'Joe', 'user1', 'password','user2@gmail.com'),
+('Flim', 'Flam', 'user3', 'password', 'user3@gmail.com'),
+('Flip', 'Flop', 'user4', 'password',  'user4@gmail.com'),
+('Zim', 'Zam', 'user5', 'password', 'user5@gmail.com');
+
+Select * from Clients;
+
+INSERT INTO DietPlans(Name,FoodType,FoodAmountInCups) VALUES
+('Dog - Standard', 'Dry Dog Food', 1),
+('Cat - Standard', 'Dry Cat Food', 5),
+('Fish - Standard', 'Dry Fish Flakes', 2),
+('Rabbit - Standard', 'Natural Blend Rabbit Pellets', 2),
+('Ferret - Standard', 'Dry Ferret Food', 2);
+
+
+
+select * FROM Clients;
+
+
+
+INSERT INTO Shots VALUES
+('Corona Virus'),
+('Heartworm'),
+('Kennel Cough'),
+('Calicivirus'),
+('Feline Leukemia');
+
+select * from Shots;
+
+Employees
+
+INSERT INTO Employees(FirstName, LastName, UserName, Password, EmployeeNumber, Email)
+SELECT 'Chong', 'Vang', 'vang88guy', '123456', '1', 'chong@gmail.com';
+
+SELECT 'Pa', 'Vang', 'pavang', '678901', '2', 'pavang@gmail.com';
+
+SELECT 'Saben', 'Vang', 'sabenvang', '234567', '3', 'sabenvang@gmail.com';
+SELECT 'Ash', 'Ketcham', 'waterpokemon', '728346', '5', 'mistywater@gmail.com';
+
+SELECT 'Misty', 'Ketcham', 'waterpokemon', '728346', '5', 'mistywater@gmail.com';
+
+
+Animals
+
+INSERT INTO Animals(Name,Weight,Age,Demeanor,KidFriendly,PetFriendly,Gender,AdoptionStatus, CategoryId, DietPlanId, EmployeeId) VALUES
+('Spark',30, 7,'Nice', 1, 1, 'Male', 'Unadopted', 1, 1, 1);
+('Rex',8, 1,'Crazy', 10, 10, 'Female', 'Unadopted', 2, 2, 2);
+('Sam',.5, 1,'Mean', 10, 10, 'Male', 'Unadopted', 3, 3, 3);
+('Fox', 2, 2,'Nice', 1, 1, 'Female', 'Unadopted', 4, 4, 4);
+('Max', 5, 5,'Nice', 1, 1, 'Male', 'Unadopted', 5, 5, 5);
+
+Rooms
+
+INSERT INTO Rooms(RoomNumber,AnimalId) VALUES
+(101, 2),
+(102, 3),
+(103, 4),
+(104, 5),
+(105, 6),
+(106, null),
+(107, null),
+(108, null),
+(109, null),
+(110, null);
+
+
+select * from USStates;
+select * from Shots;
+
+select * from Rooms;
+
+select * from Employees;
+
+select * from DietPlans;
+
+select * from Clients;
+
+select * from Categories;
+
+select * from AnimalShots;
+Select * from Animals;
+
+
+

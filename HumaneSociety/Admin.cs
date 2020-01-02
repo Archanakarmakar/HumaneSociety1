@@ -12,7 +12,7 @@ namespace HumaneSociety
         {
             UserInterface.DisplayUserOptions("What is your password?");
             string password = UserInterface.GetUserInput();
-            if (password.ToLower() != "poiuyt")
+            if (password.ToLower() != "123456")
             {
                 UserInterface.DisplayUserOptions("Incorrect password please try again or type exit");
             }
@@ -106,7 +106,7 @@ namespace HumaneSociety
                 Query.RunEmployeeQueries(employee, "delete");
                 UserInterface.DisplayUserOptions("Employee successfully removed");
             }
-            catch
+            catch(Exception e)
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Employee removal unsuccessful please try again or type exit");

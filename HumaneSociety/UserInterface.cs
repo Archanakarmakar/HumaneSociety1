@@ -220,5 +220,19 @@ namespace HumaneSociety
             }
             return searchParameters;
         }
+        internal static void DisplayShotsTable(List<Shot> shots)
+        {
+            Console.WriteLine("These shots that are in the system already");
+            foreach (Shot shot in shots)
+            {      
+                Console.WriteLine(shot.ShotId + ": " + shot.Name);
+            }
+
+        }
+        internal static void ShotIsAddedAlready(string name) 
+        {
+            Console.WriteLine(name +" shot is already in the system.");
+            Console.ReadLine();
+        }
     }
 }
